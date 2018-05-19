@@ -4,6 +4,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 import org.mockito.Mockito;
+import ru.spbau.sd.cli.interpreter.SimpleEnvironment;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -25,8 +26,9 @@ public class CmdCatTest {
         writer.close();
         ru.spbau.sd.cli.interpreter.io.OutputStream outputStream =
                 Mockito.mock(ru.spbau.sd.cli.interpreter.io.OutputStream.class);
-        Command catCommand = new CmdCat();
-        catCommand.run(Collections.singletonList(file.toPath().toString()),
+        Command catCommand = new CmdCat(new SimpleEnvironment());
+        catCommand.run(Collections.singletonList(file.toPath().toAbsolutePath()
+                        .toString()),
                 null, outputStream);
         Mockito.verify(outputStream).write(Mockito.eq(content + '\n'));
     }

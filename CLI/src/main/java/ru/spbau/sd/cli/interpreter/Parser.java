@@ -28,13 +28,17 @@ public class Parser {
             case "echo":
                 return new CmdEcho();
             case "cat":
-                return new CmdCat();
+                return new CmdCat(environment);
             case "exit":
                 return new CmdExit();
             case "pwd":
-                return new CmdPwd();
+                return new CmdPwd(environment);
             case "wc":
-                return new CmdWc();
+                return new CmdWc(environment);
+            case "cd":
+                return new CmdCd(environment);
+            case "ls":
+                return new CmdLs(environment);
             default:
                 return new ExternalCommand(cmd);
         }
