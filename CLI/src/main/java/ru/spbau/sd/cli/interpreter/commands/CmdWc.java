@@ -1,5 +1,6 @@
 package ru.spbau.sd.cli.interpreter.commands;
 
+import ru.spbau.sd.cli.interpreter.Environment;
 import ru.spbau.sd.cli.interpreter.ExecutionResult;
 import ru.spbau.sd.cli.interpreter.io.InputStream;
 import ru.spbau.sd.cli.interpreter.io.OutputStream;
@@ -16,6 +17,13 @@ import java.util.List;
  * If no arguments provided, reads from input stream.
  */
 public class CmdWc implements Command {
+
+    private final Environment environment;
+
+    public CmdWc(Environment environment) {
+        this.environment = environment;
+    }
+
     @Override
     public ExecutionResult run(List<String> arguments, InputStream inputStream,
                                OutputStream outputStream) {
@@ -27,6 +35,9 @@ public class CmdWc implements Command {
         }
         for (String filename: arguments) {
             Path filepath = Paths.get(filename);
+            if (!filepath.isAbsolute()) {
+                filepath = environment.getPath().resolve(filepath);
+            }
             try {
                 WCStat counter = new WCStat();
                 Files.lines(filepath)

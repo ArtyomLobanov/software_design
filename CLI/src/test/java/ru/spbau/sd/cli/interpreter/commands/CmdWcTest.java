@@ -4,6 +4,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 import org.mockito.Mockito;
+import ru.spbau.sd.cli.interpreter.SimpleEnvironment;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -21,7 +22,7 @@ public class CmdWcTest {
 
     @Test
     public void runTest() throws IOException {
-        Command wcCommand = new CmdWc();
+        Command wcCommand = new CmdWc(new SimpleEnvironment());
         File file = folder.newFile();
         Writer writer = new FileWriter(file);
         String content = "test content";
